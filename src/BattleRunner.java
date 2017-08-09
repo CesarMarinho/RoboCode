@@ -25,20 +25,13 @@ public class BattleRunner {
  
          int numberOfRounds = 2;
          BattlefieldSpecification battlefield = new BattlefieldSpecification(800, 600); // 800x600
-         RobotSpecification[] selectedRobots = engine.getLocalRepository("sample.Corners,sample.Crazy");
-         //RobotSpecification[] selectedRobotsA = engine.getLocalRepository("sampleex.Alien,samplesentry.BorderGuard");
+         RobotSpecification[] selectedRobots = engine.getLocalRepository(Algorithm.genPopInicial());                  
          
-            
-         
-         BattleSpecification battleSpec = new BattleSpecification(numberOfRounds, battlefield, selectedRobots);
-         //BattleSpecification battleSpecA = new BattleSpecification(numberOfRounds, battlefield, selectedRobotsA);
-         
-         
+         BattleSpecification battleSpec = new BattleSpecification(numberOfRounds, battlefield, selectedRobots);         
  
          // Run our specified battle and let it run till it is over
          for(int i=0;i<3;i++){
-        	 engine.runBattle(battleSpec, true); // waits till the battle finishes
-        	 //engine.runBattle(battleSpecA, true);
+        	 engine.runBattle(battleSpec, true); // waits till the battle finishes        	
          }
  
          // Cleanup our RobocodeEngine

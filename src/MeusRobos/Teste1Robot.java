@@ -83,6 +83,15 @@ public class Teste1Robot extends Robot {
 		//turnLeft(900);
 	}
 	
+	/* 
+	 * deverá ler o gene correspondente a cada robô 
+	 * serão criados x robôs (x é o número da população) e cada um irá ler a "sua linha" 
+	 */
+	
+	public void setArchValues(){ //lê os valores do gene diretamente de um arquivo 
+		flag = false;
+	}
+	
 	public void moves(){
 		for(int i=0;i<3;i++){	
 			if(vetor[i]==0)back(100);

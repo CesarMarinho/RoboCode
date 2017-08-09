@@ -5,35 +5,41 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 
+
+
 public class CreateRobots {
 	
 	static String robotCode = new String();
 	
-	public static void main(String[] args){
-		int[] vetor = new int[17];
-		Random random = new Random();
-		
-		for(int i=0;i<17;i++){//preenchendo Vetor de características
-			vetor[i] = random.nextInt(4);			
-		}
-		
-		createCode(vetor);
-		//System.out.println(robotCode);
-		compileCode();
-		System.out.println("finish!");
+	static String PATH = new String("C:\\robocode\\robots\\sampleex");
+	static String PACKAGE = new String("sampleex");
+	static String JARS = new String("C:\\robocode\\libs\\robocode.jar;");
+	
+	public static void generateEspecimen(int[] vetor, String name){
+		createCode(vetor, name);
+		compileCode(name);
 	}
 	
-	public static void createCode(int vetor[]){
+	private static void createCode(int vetor[], String name){
+		
+		String v = new String();//converte vetor de int para string
+		v = "{";
+		for(int t : vetor){
+			v = v+t+",";
+		}
+		v = v+"}";
 		
 		robotCode = 
-		"import java.util.Random;"+
+		"package "+PACKAGE+";"+
+		"\nimport robocode.*;" +
+		"\nimport java.util.Random;"+
 		"\nimport robocode.HitByBulletEvent;"+
 		"\nimport robocode.HitWallEvent;"+
 		"\nimport robocode.Robot;"+
 		"\nimport robocode.ScannedRobotEvent;"+
 
-		"\n\npublic class Teste1Robot extends Robot {+"+
-		"\nprivate int[] vetor = "+vetor+";"+
+		"\n\npublic class "+ name +" extends Robot {"+
+		"\nprivate int[] vetor = "+ v + ";"+
 		
 		"\npublic void run(){"+
 		"\n	int i = 0;"+
@@ -85,12 +91,12 @@ public class CreateRobots {
 		"\n}"+		
 		"\n}";
 		
-	}
+	}	
 	
-	public static void compileCode(){
-		String kk = "C:\\robocode\\robots\\samplesentry\\teste1.java";
+	private static void compileCode(String name){
+		System.out.println("Entrou na compileCode");		
 		try{
-			FileWriter fstream = new FileWriter(kk);
+			FileWriter fstream = new FileWriter(PATH+"\\"+name+".java");
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(robotCode);
 			out.close();
@@ -99,14 +105,16 @@ public class CreateRobots {
 		}
 		System.out.println("Teoricamente, arquivo criado");
 		//compile code
+		
 		try {
-			execute("javac -cp" + kk);
+			execute("javac -cp " + JARS + " " + PATH + "\\"+name+".java");
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}		
+		
 	}
 
-	public static void execute(String command) throws Exception{
+	private static void execute(String command) throws Exception{
 		Process process = Runtime.getRuntime().exec(command);
 		printMsg(command + " stdout:", process.getInputStream());
 		printMsg(command + " stderr:", process.getErrorStream());
